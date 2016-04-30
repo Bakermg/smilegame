@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>smiley face game</title>
+    <style media="screen">
+      body {background-color: lightgray;
+            text-align: center;}
+      img {position: absolute;}
+      div {position: absolute;
+            width: 500px;
+            height: 500px;}
+      #rightSide {left: 500px;
+                  border-left: 1px solid black;}
+      h1 {font-size: 40px;
+          font-family: monospace;}
+      p  {font-family: monospace;
+          font-size: 20px;}
+    </style>
+    <script>
+      var numberOfFaces = 5;
+
+      function generateFaces() {
+        //This creates the 5 faces on the left side div
+        var theLeftSide = document.getElementById("leftSide");
+        var theRightSide = document.getElementById("rightSide");
+        var theBody = document.getElementsByTagName("body")[0];
+
+        while (theRightSide.firstChild) {
+          theRightSide.removeChild(theRightSide.firstChild);
+        }
+        while (theLeftSide.firstChild) {
+          theLeftSide.removeChild(theLeftSide.firstChild);
+        }
+          for (var i = 0; i <  numberOfFaces; i++) {
+            var img = document.createElement("img");
+            img.src = "http://home.cse.ust.hk/~rossiter/mooc/matching_game/smile.png";
+            img.style.left = Math.floor(Math.random() * 400) +"px";
+            img.style.top = Math.floor(Math.random() * 400) + "px";
+            theLeftSide.appendChild(img);
+          }
+
+        // clones img to the right side div
+        leftSideImages = theLeftSide.cloneNode(true);
+        leftSideImages.removeChild(leftSideImages.lastChild);
+        theRightSide.appendChild(leftSideImages);
+
+        //If correct face is clicked adds more faces
+        theLeftSide.lastChild.onclick = function newFaces(event) {
+
+          event.stopPropagation();
+          numberOfFaces +=5;
+          generateFaces();
+
+        };
+
+        //Ends and resets the game if the incorrect face is clicked
+        theBody.onclick = function gameOver() {
+          //alert("Game Over");
+          document.getElementById("h1").innerHTML = "Game Over";
+          document.getElementById("p").innerHTML = "Reload web page to play again";
+          theBody.style.backgroundColor = "red";
+          img.style.width = "200px";
+          theBody.onclick = null;
+          theLeftSide.lastChild.onclick = null;
+
+          face.style.top=(Math.floor(Math.random()*400)+100)+"px"
+
+        };
+
+     }
+
+    </script>
+  </head>
+  <body onload="generateFaces()">
+    <h1 id="h1">Matching Smiley Face Game</h1>
+    <p id="p">Click on the extra smilling face on the left</p>
+    <div id="leftSide"></div>
+    <div id="rightSide"></div>
+  </body>
+</html>
